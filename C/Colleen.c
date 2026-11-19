@@ -1,19 +1,68 @@
 /*
-	This comment is outside the program.
+	Comment outside program
 */
 #include <stdio.h>
 
-void print_source(char *s)
+const char *s[] = {
+	"/*",
+	"	Comment outside program",
+	"*/",
+	"#include <stdio.h>",
+	"",
+	"const char *s[] = {",
+	"};",
+	"",
+	"void print_source(void)",
+	"{",
+	"	int i;",
+	"	for (i = 0; i < 6; i++)",
+	"		puts(s[i]);",
+	"	for (i = 0; i < 34; i++)",
+	"	{",
+	"		putchar(9);",
+	"		putchar(34);",
+	"		fputs(s[i], stdout);",
+	"		putchar(34);",
+	"		putchar(44);",
+	"		putchar(10);",
+	"	}",
+	"	for (i = 6; i < 34; i++)",
+	"		puts(s[i]);",
+	"}",
+	"",
+	"int main(void)",
+	"{",
+	"	/*",
+	"		Comment inside main",
+	"	*/",
+	"	print_source();",
+	"	return (0);",
+	"}",
+};
+
+void print_source(void)
 {
-	printf(s, 10, 34, s);
+	int i;
+	for (i = 0; i < 6; i++)
+		puts(s[i]);
+	for (i = 0; i < 34; i++)
+	{
+		putchar(9);
+		putchar(34);
+		fputs(s[i], stdout);
+		putchar(34);
+		putchar(44);
+		putchar(10);
+	}
+	for (i = 6; i < 34; i++)
+		puts(s[i]);
 }
 
 int main(void)
 {
 	/*
-		This comment is inside the main function.
+		Comment inside main
 	*/
-	char *s = "/*%1$c	This comment is outside the program.%1$c*/%1$c#include <stdio.h>%1$c%1$cvoid print_source(char *s)%1$c{%1$c	printf(s, 10, 34, s);%1$c}%1$c%1$cint main(void)%1$c{%1$c	/*%1$c		This comment is inside the main function.%1$c	*/%1$c	char *s = %2$c%3$s%2$c;%1$c	print_source(s);%1$c	return (0);%1$c}%1$c";
-	print_source(s);
+	print_source();
 	return (0);
 }

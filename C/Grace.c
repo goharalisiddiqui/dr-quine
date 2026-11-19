@@ -3,8 +3,24 @@
 */
 #include <stdio.h>
 
-#define FILENAME "Grace_kid.c"
-#define STR "/*%1$c	Grace Quine%1$c*/%1$c#include <stdio.h>%1$c%1$c#define FILENAME %2$cGrace_kid.c%2$c%1$c#define STR %2$c%3$s%2$c%1$c#define EXEC() int main(void) { FILE *f = fopen(FILENAME, %2$cw%2$c); if (f) { fprintf(f, STR, 10, 34, STR); fclose(f); } return (0); }%1$c%1$cEXEC()%1$c"
-#define EXEC() int main(void) { FILE *f = fopen(FILENAME, "w"); if (f) { fprintf(f, STR, 10, 34, STR); fclose(f); } return (0); }
+const char *s[] = {
+	"/*",
+	"	Grace Quine",
+	"*/",
+	"#include <stdio.h>",
+	"",
+	"const char *s[] = {",
+	"};",
+	"",
+	"#define FILENAME (char[]){71,114,97,99,101,95,107,105,100,46,99,0}",
+	"#define OUT(c) fputc(c, f)",
+	"#define EXEC() int main(void) { FILE *f = fopen(FILENAME, (char[]){119,0}); int i; for (i = 0; i < 6; i++) { fputs(s[i], f); OUT(10); } for (i = 0; i < 13; i++) { OUT(9); OUT(34); fputs(s[i], f); OUT(34); OUT(44); OUT(10); } for (i = 6; i < 13; i++) { fputs(s[i], f); OUT(10); } fclose(f); return (0); }",
+	"",
+	"EXEC()",
+};
+
+#define FILENAME (char[]){71,114,97,99,101,95,107,105,100,46,99,0}
+#define OUT(c) fputc(c, f)
+#define EXEC() int main(void) { FILE *f = fopen(FILENAME, (char[]){119,0}); int i; for (i = 0; i < 6; i++) { fputs(s[i], f); OUT(10); } for (i = 0; i < 13; i++) { OUT(9); OUT(34); fputs(s[i], f); OUT(34); OUT(44); OUT(10); } for (i = 6; i < 13; i++) { fputs(s[i], f); OUT(10); } fclose(f); return (0); }
 
 EXEC()

@@ -46,9 +46,9 @@ test:
 	@echo "[Testing ASM Sully]"
 	@rm -rf /tmp/test_sully_asm && mkdir -p /tmp/test_sully_asm && cd /tmp/test_sully_asm && (which nasm >/dev/null 2>&1 && nasm -f elf64 $(CURDIR)/ASM/Sully.s -o Sully.o || /tmp/bin/nasm -f elf64 $(CURDIR)/ASM/Sully.s -o Sully.o) && gcc -no-pie Sully.o -o Sully && rm -f Sully.o
 	@cd /tmp/test_sully_asm && ./Sully
-	@echo "Diff Sully.s vs Sully_0.s (expecting 9c9: i = 5 vs i = 0):"
+	@echo "Diff Sully.s vs Sully_0.s (expecting 10c10: i = 5 vs i = 0):"
 	@-diff $(CURDIR)/ASM/Sully.s /tmp/test_sully_asm/Sully_0.s
-	@echo "Diff Sully_3.s vs Sully_2.s (expecting 9c9: i = 3 vs i = 2):"
+	@echo "Diff Sully_3.s vs Sully_2.s (expecting 10c10: i = 3 vs i = 2):"
 	@-diff /tmp/test_sully_asm/Sully_3.s /tmp/test_sully_asm/Sully_2.s
 	@echo "Total Sully files generated: $$(ls -1 /tmp/test_sully_asm | grep Sully | wc -l) (expected: 13)"
 	@test $$(ls -1 /tmp/test_sully_asm | grep Sully | wc -l) -eq 13 && echo "Sully (ASM): OK"
