@@ -3,59 +3,29 @@
 */
 #include <stdio.h>
 
-const char *s[] = {
-	"/*",
-	"	Comment outside program",
-	"*/",
-	"#include <stdio.h>",
-	"",
-	"const char *s[] = {",
-	"};",
-	"",
-	"void print_source(void)",
-	"{",
-	"	int i;",
-	"	for (i = 0; i < 6; i++)",
-	"		puts(s[i]);",
-	"	for (i = 0; i < 34; i++)",
-	"	{",
-	"		putchar(9);",
-	"		putchar(34);",
-	"		fputs(s[i], stdout);",
-	"		putchar(34);",
-	"		putchar(44);",
-	"		putchar(10);",
-	"	}",
-	"	for (i = 6; i < 34; i++)",
-	"		puts(s[i]);",
-	"}",
-	"",
-	"int main(void)",
-	"{",
-	"	/*",
-	"		Comment inside main",
-	"	*/",
-	"	print_source();",
-	"	return (0);",
-	"}",
-};
-
-void print_source(void)
+void print_source(char *s)
 {
 	int i;
-	for (i = 0; i < 6; i++)
-		puts(s[i]);
-	for (i = 0; i < 34; i++)
+	int j;
+	for (i = 0; s[i]; i++)
 	{
-		putchar(9);
-		putchar(34);
-		fputs(s[i], stdout);
-		putchar(34);
-		putchar(44);
-		putchar(10);
+		if (s[i] == 64)
+		{
+			putchar(34);
+			for (j = 0; s[j]; j++)
+			{
+				if (s[j] == 10)
+					printf("%cn", 92);
+				else if (s[j] == 34 || s[j] == 92)
+					printf("%c%c", 92, s[j]);
+				else
+					putchar(s[j]);
+			}
+			putchar(34);
+		}
+		else
+			putchar(s[i]);
 	}
-	for (i = 6; i < 34; i++)
-		puts(s[i]);
 }
 
 int main(void)
@@ -63,6 +33,7 @@ int main(void)
 	/*
 		Comment inside main
 	*/
-	print_source();
+	char *s = "/*\n	Comment outside program\n*/\n#include <stdio.h>\n\nvoid print_source(char *s)\n{\n	int i;\n	int j;\n	for (i = 0; s[i]; i++)\n	{\n		if (s[i] == 64)\n		{\n			putchar(34);\n			for (j = 0; s[j]; j++)\n			{\n				if (s[j] == 10)\n					printf(\"%cn\", 92);\n				else if (s[j] == 34 || s[j] == 92)\n					printf(\"%c%c\", 92, s[j]);\n				else\n					putchar(s[j]);\n			}\n			putchar(34);\n		}\n		else\n			putchar(s[i]);\n	}\n}\n\nint main(void)\n{\n	/*\n		Comment inside main\n	*/\n	char *s = @;\n	print_source(s);\n	return (0);\n}\n";
+	print_source(s);
 	return (0);
 }
