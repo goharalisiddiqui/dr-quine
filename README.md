@@ -180,7 +180,7 @@ Instead of relying on format specifiers to inject quotes and newlines, this appr
 
 int main(void)
 {
-	char *s = "#include <stdio.h>\n\nint main(void)\n{\n\tchar *s = @;\n\tfor (int i = 0; s[i]; i++)\n\t{\n\t\tif (s[i] == 64)\n\t\t{\n\t\t\tputchar(34);\n\t\t\tfor (int j = 0; s[j]; j++)\n\t\t\t{\n\t\t\t\tif (s[j] == 10)\n\t\t\t\t\tprintf(\"%cn\", 92);\n\t\t\t\telse if (s[j] == 34 || s[j] == 92)\n\t\t\t\t\tprintf(\"%c%c\", 92, s[j]);\n\t\t\t\telse\n\t\t\t\t\tputchar(s[j]);\n\t\t\t}\n\t\t\tputchar(34);\n\t\t}\n\t\telse\n\t\t\tputchar(s[i]);\n\t}\n\treturn (0);\n}\n";
+	char *s = "#include <stdio.h>\n\nint main(void)\n{\n\tchar *s = @;\n\tfor (int i = 0; s[i]; i++)\n\t{\n\t\tif (s[i] == 64)\n\t\t{\n\t\t\tputchar(34);\n\t\t\tfor (int j = 0; s[j]; j++)\n\t\t\t{\n\t\t\t\tif (s[j] == 10)\n\t\t\t\t{\n\t\t\t\t\tputchar(92);\n\t\t\t\t\tputchar(110);\n\t\t\t\t}\n\t\t\t\telse if (s[j] == 34 || s[j] == 92)\n\t\t\t\t{\n\t\t\t\t\tputchar(92);\n\t\t\t\t\tputchar(s[j]);\n\t\t\t\t}\n\t\t\t\telse\n\t\t\t\t\tputchar(s[j]);\n\t\t\t}\n\t\t\tputchar(34);\n\t\t}\n\t\telse\n\t\t\tputchar(s[i]);\n\t}\n\treturn (0);\n}\n";
 	for (int i = 0; s[i]; i++)
 	{
 		if (s[i] == 64)
@@ -189,9 +189,15 @@ int main(void)
 			for (int j = 0; s[j]; j++)
 			{
 				if (s[j] == 10)
-					printf("%cn", 92);
+				{
+					putchar(92);
+					putchar(110);
+				}
 				else if (s[j] == 34 || s[j] == 92)
-					printf("%c%c", 92, s[j]);
+				{
+					putchar(92);
+					putchar(s[j]);
+				}
 				else
 					putchar(s[j]);
 			}
